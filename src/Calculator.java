@@ -82,24 +82,10 @@ public class Calculator extends JFrame {
         add(grid, BorderLayout.CENTER);
 
         // ---------- Fade-in animation on launch ----------
-        setOpacity(0f);
-        Timer fadeTimer = new Timer(15, null);
-        fadeTimer.addActionListener(new ActionListener() {
-            float opacity = 0f;
-            public void actionPerformed(ActionEvent e) {
-                opacity += 0.04f;
-                if (opacity >= 1f) {
-                    opacity = 1f;
-                    fadeTimer.stop();
-                }
-                setOpacity(opacity);
-            }
-        });
-        addWindowListener(new WindowAdapter() {
-            public void windowOpened(WindowEvent e) {
-                fadeTimer.start();
-            }
-        });
+        // Note: Frame.setOpacity() requires an UNDECORATED window on some
+        // Windows JDKs and throws IllegalComponentStateException otherwise,
+        // so we skip whole-window opacity and rely on the button/text
+        // animations below for visual polish instead.
     }
 
     // ---------- Animated rounded button factory ----------
