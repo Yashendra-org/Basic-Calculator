@@ -66,11 +66,11 @@ public class Calculator extends JFrame {
         grid.setOpaque(false);
 
         String[][] layout = {
-            {"C", "⌫", "%", "÷"},
-            {"7", "8", "9", "×"},
-            {"4", "5", "6", "−"},
+            {"C", "<-", "%", "/"},
+            {"7", "8", "9", "x"},
+            {"4", "5", "6", "-"},
             {"1", "2", "3", "+"},
-            {"±", "0", ".", "="}
+            {"+/-", "0", ".", "="}
         };
 
         for (String[] row : layout) {
@@ -90,8 +90,8 @@ public class Calculator extends JFrame {
 
     // ---------- Animated rounded button factory ----------
     private JButton createAnimatedButton(String label) {
-        boolean isOperator = "÷×−+=".contains(label) && label.length() == 1;
-        boolean isFunction = label.equals("C") || label.equals("⌫") || label.equals("%") || label.equals("±");
+        boolean isOperator = "/x-+=".contains(label) && label.length() == 1;
+        boolean isFunction = label.equals("C") || label.equals("<-") || label.equals("%") || label.equals("+/-");
 
         final Color base = isOperator ? OP_BTN : isFunction ? FUN_BTN : NUM_BTN;
         final Color hover = isOperator ? OP_BTN_HOV : isFunction ? FUN_BTN_HOV : NUM_BTN_HOV;
@@ -117,7 +117,7 @@ public class Calculator extends JFrame {
                 startNewNumber = true;
                 animateText("0");
                 break;
-            case "⌫":
+            case "<-":
                 String cur = display.getText();
                 if (cur.length() > 1 && !startNewNumber) {
                     display.setText(cur.substring(0, cur.length() - 1));
@@ -126,7 +126,7 @@ public class Calculator extends JFrame {
                     startNewNumber = true;
                 }
                 break;
-            case "±":
+            case "+/-":
                 toggleSign();
                 break;
             case "%":
@@ -136,7 +136,7 @@ public class Calculator extends JFrame {
                     startNewNumber = true;
                 } catch (NumberFormatException ignored) {}
                 break;
-            case "÷": case "×": case "−": case "+":
+            case "/": case "x": case "-": case "+":
                 try {
                     currentValue = Double.parseDouble(display.getText());
                 } catch (NumberFormatException ignored) {}
@@ -186,15 +186,15 @@ public class Calculator extends JFrame {
         boolean error = false;
 
         switch (pendingOperator) {
-            case "÷":
+            case "/":
                 if (second == 0) {
                     error = true;
                 } else {
                     result = currentValue / second;
                 }
                 break;
-            case "×": result = currentValue * second; break;
-            case "−": result = currentValue - second; break;
+            case "x": result = currentValue * second; break;
+            case "-": result = currentValue - second; break;
             case "+": result = currentValue + second; break;
         }
 
